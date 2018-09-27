@@ -1,1 +1,2 @@
-from shortcodes import *
+from shortcode import *
+from extension import *
