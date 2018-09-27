@@ -62,8 +62,7 @@ class Shortcode(object):
         if self.template:
             value = self._render_template(value, options)
         # Make sure to bring some room between potential markdown elements
-        print type(value)
-        return '\n' + value + '\n'
+        return '\n{% raw %}' + value + '{% endraw %}\n'
 
     def _render_template(self, value, options):
         # Check if template exists
