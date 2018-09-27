@@ -28,7 +28,7 @@ class ShortcodesExtension(extensions.BaseExtension):
 
     def __init__(self, pod, config):
         super(ShortcodesExtension, self).__init__(pod, config)
-        self.parser = bbcode.Parser(install_defaults=False, escape_html=False, replace_links=False)
+        self.parser = bbcode.Parser(newline='\n', install_defaults=False, escape_html=False, replace_links=False)
         self.shortcodes = []
 
         self.load_shortcodes()
