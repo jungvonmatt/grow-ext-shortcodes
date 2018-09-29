@@ -15,8 +15,11 @@ class ShortcodesPreRenderHook(hooks.PreRenderHook):
 
     def should_trigger(self, previous_result, doc, original_body, *_args,
                        **_kwargs):
-        """Should the hook trigger with current document?"""
-        return True
+        """Only trigger for non-empty documents"""
+        if original_body is not None:
+            return True
+        else:
+            return False
 
     def trigger(self, previous_result, doc, raw_content, *_args, **_kwargs):
         content = previous_result if previous_result else raw_content
