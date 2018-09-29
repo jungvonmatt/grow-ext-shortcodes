@@ -58,7 +58,7 @@ class Shortcode(object):
             value = markdown.markdown(value)
         if callable(self.transform):
             # Give shortcode author the chance to manipulate the output
-            value = self.transform(value, options)
+            value = self.transform(value=value, options=options)
         if self.template:
             value = self._render_template(value, options)
         # Make sure to bring some room between potential markdown elements
