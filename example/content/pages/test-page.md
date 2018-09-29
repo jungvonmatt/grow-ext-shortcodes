@@ -17,3 +17,8 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 ## Kleine Headline
 # Große Headline
 [/stage]
+
+[float-image]
+![]('/static/image_103x56.svg')
+![]('/static/image_1079x1316.png')
+[/float-image]

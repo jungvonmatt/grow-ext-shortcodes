@@ -1,5 +1,9 @@
 localization:
   default_locale: en
 
+static_dirs:
+- static_dir: /static/
+  serve_at: /static/
+
 ext:
 - extensions.shortcodes.ShortcodesExtension
