@@ -46,7 +46,7 @@ class ShortcodesExtension(extensions.BaseExtension):
                     module = importer.find_module(package_name).load_module(package_name)
                     self.register_shortcode(module)
         else:
-            pod.logger.warning('There is no shortcode package in this pod')
+            self.pod.logger.warning('There is no shortcode package in this pod')
 
     def register_shortcode(self, module):
         """Checks if a loaded module exports a shortcode class and if so instantiates
