@@ -3,6 +3,7 @@ import os
 
 import jinja2
 import markdown
+from grow.templates import tags
 
 
 class Shortcode(object):
@@ -33,7 +34,7 @@ class Shortcode(object):
     transform = None
 
     def __init__(self, pod):
-        self.pod = pod
+        self._pod = pod
 
     def register(self, parser):
         """Adds a formatter for the shortcode to the BBCode parser"""
@@ -50,7 +51,7 @@ class Shortcode(object):
             replace_cosmetic=self.replace_cosmetic,
             strip=self.strip,
             swallow_trailing_newline=self.swallow_trailing_newline, )
-        self.pod.logger.info('Registered shortcode "{}"'.format(self.name))
+        self._pod.logger.info('Registered shortcode "{}"'.format(self.name))
 
     def _render(self, tag_name, value, options, parent, context):
         if self.prerender_markdown:
@@ -60,21 +61,27 @@ class Shortcode(object):
             # Give shortcode author the chance to manipulate the output
             value = self.transform(value=value, options=options)
         if self.template:
-            value = self._render_template(value, options)
+            value = self._render_template(
+                doc=context['doc'], value=value, options=options)
         # Make sure to bring some room between potential markdown elements
         return '\n{% raw %}' + value + '{% endraw %}\n'
 
-    def _render_template(self, value, options):
+    def _render_template(self, doc, value, options):
         # Check if template exists
-        template_path = '{}/{}'.format(self.pod.root, self.template)
+        template_path = '{}/{}'.format(self._pod.root, self.template)
         if os.path.exists(template_path):
+            # Get pod's jinja2 environment for rendering
+            jinja = self._pod.get_jinja_env()
+
             # Build context for rendering of template
             context = self.context
             context['value'] = value
             context['options'] = options
-            # Kinda hacky but get globals from actual grow jinja environment
-            context.update(self.pod.get_jinja_env().globals)
+
+            # Bring default grow tags/variables into template
+            context['doc'] = doc
+            context['g'] = tags.create_builtin_tags(self._pod, doc)
 
             with open(template_path) as template:
-                template = jinja2.Template(template.read())
+                template = jinja.from_string(template.read())
                 return template.render(context)
