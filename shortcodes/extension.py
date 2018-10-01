@@ -23,7 +23,8 @@ class ShortcodesPreRenderHook(hooks.PreRenderHook):
 
     def trigger(self, previous_result, doc, raw_content, *_args, **_kwargs):
         content = previous_result if previous_result else raw_content
-        return self.extension.parser.format(content)
+
+        return self.extension.parser.format(content, doc=doc)
 
 
 class ShortcodesExtension(extensions.BaseExtension):
