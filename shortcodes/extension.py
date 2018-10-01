@@ -16,6 +16,9 @@ class ShortcodesPreRenderHook(hooks.PreRenderHook):
     def should_trigger(self, previous_result, doc, original_body, *_args,
                        **_kwargs):
         """Only trigger for non-empty documents"""
+        # TODO: This is extremly ugly but without it Grow will cache
+        # the result of rendered shortcodes
+        doc.pod.podcache.reset()
         if original_body is not None:
             return True
         else:
