@@ -40,9 +40,6 @@ class ShortcodesExtension(extensions.BaseExtension):
 
         self.load_shortcodes()
 
-        # After init write extension to pod to have it widely available
-        setattr(pod, 'shortcodes', self)
-
     def load_shortcodes(self):
         """Verifies the pod has a shortcode module and loads all shortcodes"""
         shortcodes_path = '{}/{}'.format(self.pod.root, SHORTCODES_DIR)
