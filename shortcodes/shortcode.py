@@ -32,6 +32,8 @@ class Shortcode(object):
     # Can be overwritten with a method that can be used to alter the value
     # before rendering
     transform = None
+    # Set to True to enable template rendering even with empty value
+    render_empty = False
 
     def __init__(self, pod):
         self._pod = pod
@@ -60,6 +62,9 @@ class Shortcode(object):
         if callable(self.transform):
             # Give shortcode author the chance to manipulate the output
             value = self.transform(value=value, options=options)
+        # Check if we still have a value to render
+        if not value and not self.render_empty:
+            return '\n'
         if self.template:
             value = self._render_template(
                 doc=context['doc'], value=value, options=options)
