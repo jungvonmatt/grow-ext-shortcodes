@@ -5,7 +5,7 @@ import sys
 
 import bbcode
 from grow import extensions
-from grow.documents import document
+from grow.documents import document, static_document
 from grow.extensions import hooks
 
 SHORTCODES_DIR = 'shortcodes'
