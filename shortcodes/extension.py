@@ -27,7 +27,8 @@ class ShortcodesPreRenderHook(hooks.PreRenderHook):
             return False
 
         # TODO: This is extremly ugly but without it Grow will cache
-        # the result of rendered shortcodes
+        # the result of rendered shortcodes. At least try to only bust
+        # needed caches
         doc.pod.podcache.reset()
         return True
 
@@ -46,6 +47,7 @@ class ShortcodesExtension(extensions.BaseExtension):
             newline='\n',
             install_defaults=False,
             escape_html=False,
+            replace_cosmetic=False,
             replace_links=False)
         self.shortcodes = []
 
