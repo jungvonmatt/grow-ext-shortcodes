@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 import os
 
+from grow.templates import tags
+
 import jinja2
 import markdown
-from grow.templates import tags
 
 
 class Shortcode(object):
@@ -21,7 +22,7 @@ class Shortcode(object):
     replace_links = False
     replace_cosmetic = True
     strip = False
-    swallow_trailing_newline = False
+    swallow_trailing_newline = True
 
     # Pod-relative path to the template if there is one to render
     template = None
@@ -64,12 +65,12 @@ class Shortcode(object):
             value = self.transform(value=value, options=options)
         # Check if we still have a value to render
         if not value and not self.render_empty:
-            return '\n'
+            return ''
         if self.template:
             value = self._render_template(
                 doc=context['doc'], value=value, options=options)
         # Make sure to bring some room between potential markdown elements
-        return '\n' + value + '\n'
+        return value
 
     def _render_template(self, doc, value, options):
         # Check if template exists
